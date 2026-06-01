@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  avatar        String?
+  xp            Int       @default(0)
+  coins         Int       @default(0)
+  level         Int       @default(1)
+  streak        Int       @default(0)
+  lastActive    DateTime?
+  role          Role      @default(STUDENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  progress              Progress[]
+  quizAttempts          QuizAttempt[]
+  tournamentEntries     TournamentEntry[]
+  challengeSubmissions  ChallengeSubmission[]
+  mockExamAttempts      MockExamAttempt[]
+  achievements          UserAchievement[]
+  mentorQuestions       MentorQuestion[]
+  transactions          Transaction[]
+  certificates          Certificate[]
+  wonChallenges         Challenge[]       @relation(name: "challengeWinner")
+  reviews               Review[]
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  MODERATOR
+}
+
+model Module {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  category    ModuleCategory
+  order       Int
+  facts       Fact[]
+  quizzes     Quiz[]
+  progress    Progress[]
+  createdAt   DateTime       @default(now())
+}
+
+enum ModuleCategory {
+  ECONOMIC_HISTORY
+  ECONOMIC_THEORY
+  MACROECONOMICS
+  MICROECONOMICS
+}
+
+model Fact {
+  id        String   @id @default(cuid())
+  moduleId  String
+  module    Module   @relation(fields: [moduleId], references: [id])
+  content   String
+  order     Int
+  createdAt DateTime @default(now())
+}
+
+model Progress {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  moduleId  String
+  module    Module   @relation(fields: [moduleId], references: [id])
+  completed Boolean  @default(false)
+  score     Int?
+  lastFact  Int?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Quiz {
+  id          String          @id @default(cuid())
+  moduleId    String?
+  module      Module?         @relation(fields: [moduleId], references: [id])
+  title       String
+  description String?
+  difficulty  Difficulty
+  timeLimit   Int             @default(900)
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+  tournaments Tournament[]
+  createdAt   DateTime        @default(now())
+}
+
+model QuizQuestion {
+  id          String       @id @default(cuid())
+  quizId      String
+  quiz        Quiz         @relation(fields: [quizId], references: [id])
+  type        QuestionType
+  question    String
+  options     Json
+  correct     Json
+  explanation String?
+  order       Int
+  createdAt   DateTime     @default(now())
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  MULTI_SELECT
+  TRUE_FALSE
+  CASE_BASED
+  FORMULA
+  DATA_INTERPRETATION
+  GRAPH_ANALYSIS
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
+model QuizAttempt {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  quizId    String
+  quiz      Quiz      @relation(fields: [quizId], references: [id])
+  score     Int
+  total     Int
+  xpEarned  Int
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  answers   Json
+}
+
+model Tournament {
+  id           String           @id @default(cuid())
+  title        String
+  description  String?
+  startDate    DateTime
+  endDate      DateTime
+  prizeCoins   Int
+  prizeXP      Int
+  status       TournamentStatus @default(UPCOMING)
+  quizId       String?
+  quiz         Quiz?            @relation(fields: [quizId], references: [id])
+  entries      TournamentEntry[]
+  createdAt    DateTime         @default(now())
+}
+
+enum TournamentStatus {
+  UPCOMING
+  LIVE
+  ENDED
+}
+
+model TournamentEntry {
+  id           String     @id @default(cuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  score        Int
+  accuracy     Float
+  timeSpent    Int
+  rank         Int?
+  xpReward     Int
+  coinReward   Int
+  completedAt  DateTime?
+  createdAt    DateTime   @default(now())
+}
+
+model Challenge {
+  id           String              @id @default(cuid())
+  title        String
+  description  String
+  scenario     String
+  deadline     DateTime
+  prize        String
+  status       ChallengeStatus     @default(ACTIVE)
+  submissions  ChallengeSubmission[]
+  winnerId     String?
+  winner       User?               @relation(fields: [winnerId], references: [id], name: "challengeWinner")
+  createdAt    DateTime            @default(now())
+}
+
+enum ChallengeStatus {
+  ACTIVE
+  CLOSED
+  WINNER_SELECTED
+}
+
+model ChallengeSubmission {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  content     String
+  votes       Int       @default(0)
+  reviewed    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+model MockExam {
+  id           String             @id @default(cuid())
+  title        String
+  type         ExamType
+  description  String?
+  questions    Json
+  timeLimit    Int
+  passingScore Int
+  attempts     MockExamAttempt[]
+  createdAt    DateTime           @default(now())
+}
+
+enum ExamType {
+  ACCA_FOUNDATIONS
+  CFA_ECONOMICS
+  FRM
+  CFO
+}
+
+model MockExamAttempt {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  examId    String
+  exam      MockExam  @relation(fields: [examId], references: [id])
+  score     Int
+  total     Int
+  passed    Boolean
+  analytics Json?
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+}
+
+model Achievement {
+  id          String             @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  xpReward    Int
+  condition   Json
+  createdAt   DateTime           @default(now())
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  earnedAt      DateTime    @default(now())
+}
+
+model MentorQuestion {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  question   String
+  answer     String?
+  status     QuestionStatus @default(OPEN)
+  createdAt  DateTime       @default(now())
+  answeredAt DateTime?
+}
+
+enum QuestionStatus {
+  OPEN
+  ANSWERED
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Int
+  currency  String   @default("UZS")
+  type      String
+  createdAt DateTime @default(now())
+}
+
+model Certificate {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id])
+  type     String
+  metadata Json?
+  issuedAt DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  targetId  String
+  content   String
+  rating    Int?
+  createdAt DateTime @default(now())
+}
