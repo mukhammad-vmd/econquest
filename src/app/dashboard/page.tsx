@@ -1,8 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
-import XPBadge from "@/components/gamification/XPBadge";
-import LevelProgress from "@/components/gamification/LevelProgress";
-import Achievement from "@/components/gamification/Achievement";
 
 const prisma = new PrismaClient();
 
@@ -40,33 +37,19 @@ export default async function DashboardPage() {
     { label: 'Testlar', value: '0', color: '#a78bfa', icon: '📝' },
   ];
 
-  const achievements = [
-    { name: "Birinchi qadam", desc: "Birinchi test topshirildi", icon: "🎯", unlocked: dbUser.xp >= 50 },
-    { name: "Bilimdon", desc: "10 ta test topshirildi", icon: "📚", unlocked: dbUser.xp >= 500 },
-    { name: "Magistr", desc: "Barcha modullarni yakunlash", icon: "🎓", unlocked: dbUser.xp >= 2000 },
-  ];
-
   return (
     <div>
       <div style={{ marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-          <h1 style={{ fontSize: 32, fontWeight: 700, margin: 0 }}>
-            👋 Salom, {dbUser.name}!
-          </h1>
-          <XPBadge xp={dbUser.xp} />
-        </div>
-        <p style={{ color: '#b0b8c4', marginTop: 8 }}>O'rganishda davom eting. Bugun yangi bilimlar kuni!</p>
+        <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 4 }}>
+          👋 Salom, {dbUser.name}!
+        </h1>
+        <p style={{ color: '#b0b8c4' }}>O'rganishda davom eting. Bugun yangi bilimlar kuni!</p>
       </div>
 
-      {/* Daraja progressi */}
-      <LevelProgress xp={dbUser.xp} />
-
-      {/* Statistikalar */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(4, 1fr)', 
         gap: 16, 
-        marginTop: 24,
         marginBottom: 32 
       }}>
         {stats.map((stat, i) => (
@@ -84,26 +67,12 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      {/* Yutuqlar */}
-      <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 16 }}>🏅 Yutuqlar</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 32 }}>
-        {achievements.map((a, i) => (
-          <Achievement
-            key={i}
-            name={a.name}
-            description={a.desc}
-            icon={a.icon}
-            unlocked={a.unlocked}
-          />
-        ))}
-      </div>
-
-      {/* Tezkor havolalar */}
       <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 16 }}>📌 Tezkor havolalar</h2>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <a href="/learn" style={{
           background: 'rgba(255,255,255,0.05)', padding: 20, borderRadius: 14,
           textDecoration: 'none', color: 'white', border: '1px solid rgba(255,255,255,0.08)',
+          transition: 'all 0.2s'
         }}>
           <div style={{ fontSize: 20, marginBottom: 8 }}>📚</div>
           <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}>Kutubxona</h3>
@@ -112,6 +81,7 @@ export default async function DashboardPage() {
         <a href="/tournament" style={{
           background: 'rgba(255,255,255,0.05)', padding: 20, borderRadius: 14,
           textDecoration: 'none', color: 'white', border: '1px solid rgba(255,255,255,0.08)',
+          transition: 'all 0.2s'
         }}>
           <div style={{ fontSize: 20, marginBottom: 8 }}>🏆</div>
           <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}>Haftalik Turnir</h3>

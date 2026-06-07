@@ -1,4 +1,22 @@
+"use client";
+
+import { useState } from "react";
+
 export default function ChallengesPage() {
+  const [showForm, setShowForm] = useState(false);
+  const [solution, setSolution] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = () => {
+    if (solution.trim().length < 20) {
+      alert("Iltimos, yechimni batafsilroq yozing (kamida 20 ta belgi).");
+      return;
+    }
+    // Bu yerda haqiqiy API chaqiruvi bo‘ladi
+    setSubmitted(true);
+    setShowForm(false);
+  };
+
   return (
     <div>
       <div style={{ marginBottom: 32 }}>
@@ -23,33 +41,101 @@ export default function ChallengesPage() {
           <strong>Vazifa:</strong> 3 bosqichli strategiya ishlab chiqing: qisqa muddatli xarajatlarni optimizatsiya qilish, 
           o'rta muddatli mahsulot diversifikatsiyasi, uzoq muddatli bozor pozitsiyasini tiklash.
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-          <span style={{
+
+        {submitted ? (
+          <div style={{
             background: 'rgba(16,185,129,0.15)',
             color: '#10b981',
-            padding: '6px 16px',
-            borderRadius: 20,
-            fontSize: 13,
+            padding: '12px 20px',
+            borderRadius: 12,
             fontWeight: 600,
             border: '1px solid rgba(16,185,129,0.3)',
           }}>
-            💰 Mukofot: 1,000,000 so'm
-          </span>
-          <span style={{ color: '#7c8493', fontSize: 13 }}>
-            ⏳ Deadline: 5 kun qoldi
-          </span>
-          <button style={{
-            background: '#f0d078',
-            color: '#1a0533',
-            padding: '10px 24px',
-            borderRadius: 24,
-            border: 'none',
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}>
-            Yechim yuborish
-          </button>
-        </div>
+            ✅ Yechimingiz muvaffaqiyatli yuborildi! Natijalar hafta oxirida e'lon qilinadi.
+          </div>
+        ) : showForm ? (
+          <div style={{ marginTop: 16 }}>
+            <textarea
+              value={solution}
+              onChange={(e) => setSolution(e.target.value)}
+              placeholder="Strategiyangizni batafsil tavsiflang..."
+              style={{
+                width: '100%',
+                minHeight: 150,
+                background: 'rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                padding: 16,
+                color: 'white',
+                fontSize: 15,
+                fontFamily: 'inherit',
+                resize: 'vertical',
+                marginBottom: 16,
+              }}
+            />
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowForm(false)}
+                style={{
+                  background: 'transparent',
+                  color: '#b0b8c4',
+                  padding: '10px 24px',
+                  borderRadius: 24,
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                }}
+              >
+                Bekor qilish
+              </button>
+              <button
+                onClick={handleSubmit}
+                style={{
+                  background: '#f0d078',
+                  color: '#1a0533',
+                  padding: '10px 24px',
+                  borderRadius: 24,
+                  border: 'none',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Yuborish
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <span style={{
+              background: 'rgba(16,185,129,0.15)',
+              color: '#10b981',
+              padding: '6px 16px',
+              borderRadius: 20,
+              fontSize: 13,
+              fontWeight: 600,
+              border: '1px solid rgba(16,185,129,0.3)',
+            }}>
+              💰 Mukofot: 1,000,000 so'm
+            </span>
+            <span style={{ color: '#7c8493', fontSize: 13 }}>
+              ⏳ Deadline: 5 kun qoldi
+            </span>
+            <button
+              onClick={() => setShowForm(true)}
+              style={{
+                background: '#f0d078',
+                color: '#1a0533',
+                padding: '10px 24px',
+                borderRadius: 24,
+                border: 'none',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              Yechim yuborish
+            </button>
+          </div>
+        )}
       </div>
 
       <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 16 }}>📋 Oldingi g'oliblar</h2>

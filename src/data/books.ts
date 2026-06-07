@@ -1,213 +1,39 @@
-export interface BookPage {
-  title?: string;
-  content: string[];
-}
-
 export interface Book {
   id: string;
   title: string;
   author: string;
   description: string;
-  coverImage: string;
-  pages: BookPage[];
+  pdfUrl: string;
+  coverColor: string;
+  pages: number;
 }
 
 export const books: Book[] = [
   {
-    id: 'principles-of-economics',
-    title: 'Iqtisodiyot Asoslari',
-    author: 'N. Gregory Mankiw',
-    description: 'Iqtisodiyotning 10 ta asosiy tamoyili, talab va taklif, bozor muvozanati, elastiklik, davlat siyosati va boshqa fundamental tushunchalar.',
-    coverImage: '📗',
-    pages: [
-      {
-        title: '📗 Iqtisodiyot Asoslari',
-        content: [
-          'Iqtisodiyot Asoslari — N. Gregory Mankiw',
-          '',
-          'Bu kitob iqtisodiyot fanining fundamental tamoyillarini o\'rganish uchun mo\'ljallangan.',
-          'Kitob 10 ta asosiy iqtisodiy tamoyil bilan boshlanadi va talab-taklif, bozor muvozanati, elastiklik, soliqlar, xalqaro savdo kabi mavzularni qamrab oladi.',
-          '',
-          '📖 Mundarija:',
-          '1. Iqtisodiyotning 10 ta asosiy tamoyili',
-          '2. Iqtisodchi kabi fikrlash',
-          '3. Talab va taklif',
-          '4. Bozor muvozanati',
-          '5. Elastiklik',
-          '6. Davlat siyosati va bozor',
-          '7. Iste\'molchilar, ishlab chiqaruvchilar va bozor samaradorligi',
-          '8. Soliqlar',
-          '9. Xalqaro savdo',
-          '10. Tashqi ta\'sirlar',
-        ],
-      },
-      {
-        title: '1. Iqtisodiyotning 10 ta asosiy tamoyili',
-        content: [
-          '1. Iqtisodiyotning 10 ta asosiy tamoyili',
-          '',
-          'Tamoyil 1: Odamlar tanlov qilishga majbur.',
-          'Resurslar cheklanganligi sababli, odamlar doimo nimadir olish uchun nimadandir voz kechishi kerak. Bu "tanlov" iqtisodiyotning asosidir.',
-          '',
-          'Tamoyil 2: Biror narsaning narxi — undan voz kechish qiymatidir.',
-          'Har bir tanlovning alternativ qiymati (opportunity cost) mavjud. Kollejda o\'qishning alternativ qiymati — shu vaqtda ishlab topilishi mumkin bo\'lgan daromaddir.',
-          '',
-          'Tamoyil 3: Ratsional odamlar marjinal tahlil qiladi.',
-          'Odamlar qo\'shimcha bir birlikning foydasi va xarajatini solishtirib qaror qabul qiladi.',
-          '',
-          'Tamoyil 4: Odamlar rag\'batlarga javob beradi.',
-          'Narx o\'zgarganda, odamlar o\'z xatti-harakatini o\'zgartiradi. Masalan, benzin narxi oshsa, odamlar kamroq haydaydi yoki tejamkor mashina sotib oladi.',
-        ],
-      },
-      {
-        title: '1. Iqtisodiyotning 10 ta asosiy tamoyili (davomi)',
-        content: [
-          'Tamoyil 5: Savdo hamma uchun foydali.',
-          'Ixtisoslashuv va savdo orqali har bir tomon o\'z ahvolini yaxshilashi mumkin. Bu qiyosiy ustunlik nazariyasiga asoslanadi.',
-          '',
-          'Tamoyil 6: Bozorlar odatda iqtisodiy faoliyatni tashkil qilishning eng yaxshi usulidir.',
-          'Adam Smithning "ko\'rinmas qo\'l" tamoyili: bozor narxlari orqali resurslar samarali taqsimlanadi.',
-          '',
-          'Tamoyil 7: Ba\'zan hukumat bozor natijalarini yaxshilashi mumkin.',
-          'Bozor muvaffaqiyatsizliklari (tashqi ta\'sirlar, monopoliya, jamoat tovarlari) davlat aralashuvini talab qilishi mumkin.',
-          '',
-          'Tamoyil 8: Mamlakatning turmush darajasi uning ishlab chiqarish qobiliyatiga bog\'liq.',
-          'Aholi jon boshiga YaIM — mahsuldorlikning o\'lchovi. Yuqori mahsuldorlik yuqori turmush darajasini ta\'minlaydi.',
-        ],
-      },
-      {
-        title: '1. Iqtisodiyotning 10 ta asosiy tamoyili (oxiri)',
-        content: [
-          'Tamoyil 9: Hukumat ko\'p pul chop etsa, narxlar oshadi.',
-          'Pul massasining o\'sishi inflyatsiyaga olib keladi. Milton Friedman: "Inflyatsiya har doim va hamma joyda pul fenomenidir."',
-          '',
-          'Tamoyil 10: Jamiyat qisqa muddatda inflyatsiya va ishsizlik o\'rtasida tanlov qilishga majbur.',
-          'Phillips egri chizig\'i: qisqa muddatda inflyatsiya va ishsizlik o\'rtasida teskari bog\'liqlik mavjud.',
-          '',
-          '📝 Xulosa:',
-          'Bu 10 ta tamoyil iqtisodiyotning asosiy g\'oyalarini ifodalaydi. Ular individual qaror qabul qilishdan tortib, butun iqtisodiyotning ishlashigacha bo\'lgan jarayonlarni tushuntirishga yordam beradi.',
-        ],
-      },
-      {
-        title: '2. Iqtisodchi kabi fikrlash',
-        content: [
-          '2. Iqtisodchi kabi fikrlash',
-          '',
-          'Iqtisodchilar olim sifatida:',
-          '• Kuzatish, nazariya va ma\'lumotlarni tahlil qilish.',
-          '• Modellar yaratish (oddiy diagrammalar, tenglamalar).',
-          '• Farazlar qilish (soddalashtirish uchun).',
-          '',
-          'Iqtisodiy modellar:',
-          '• Aylanma oqim diagrammasi (Circular Flow Diagram).',
-          '• Ishlab chiqarish imkoniyatlari chegarasi (PPF).',
-          '',
-          'PPF — iqtisodiyot mavjud resurslar bilan ishlab chiqarishi mumkin bo\'lgan maksimal mahsulot kombinatsiyalarini ko\'rsatadi.',
-          '',
-          'Mikroiqtisodiyot va Makroiqtisodiyot:',
-          '• Mikroiqtisodiyot — alohida bozorlar, firmalar, uy xo\'jaliklari.',
-          '• Makroiqtisodiyot — butun iqtisodiyot, inflyatsiya, ishsizlik, YaIM.',
-        ],
-      },
-      {
-        title: '3. Talab va Taklif',
-        content: [
-          '3. Talab va Taklif',
-          '',
-          'Bozor — xaridorlar va sotuvchilar o\'zaro ta\'sir qiladigan joy.',
-          '',
-          'Talab (Demand):',
-          '• Talab miqdori — xaridorlar ma\'lum narxda sotib olishga tayyor va qodir bo\'lgan tovar miqdori.',
-          '• Talab qonuni: narx oshsa, talab miqdori kamayadi (ceteris paribus).',
-          '• Talab egri chizig\'i — pastga yotiq.',
-          '',
-          'Taklif (Supply):',
-          '• Taklif miqdori — sotuvchilar ma\'lum narxda sotishga tayyor bo\'lgan tovar miqdori.',
-          '• Taklif qonuni: narx oshsa, taklif miqdori ortadi.',
-          '• Taklif egri chizig\'i — yuqoriga yotiq.',
-          '',
-          'Muvozanat: Talab = Taklif.',
-        ],
-      },
-      {
-        title: '4. Bozor Muvozanati',
-        content: [
-          '4. Bozor Muvozanati',
-          '',
-          'Muvozanat narx — talab va taklif kesishgan nuqtadagi narx.',
-          'Muvozanat miqdor — shu narxda sotiladigan miqdor.',
-          '',
-          'Ortiqcha (Surplus): Narx muvozanat narxdan yuqori → Taklif > Talab.',
-          'Kamomad (Shortage): Narx muvozanat narxdan past → Talab > Taklif.',
-          '',
-          'Bozor avtomatik ravishda muvozanatga intiladi (Adam Smithning "ko\'rinmas qo\'l" tamoyili).',
-          '',
-          'Talab va taklifning siljishi:',
-          '• Talab oshsa → narx va miqdor ortadi.',
-          '• Taklif oshsa → narx pasayadi, miqdor ortadi.',
-          '• Talab kamaysa → narx va miqdor kamayadi.',
-          '• Taklif kamaysa → narx ortadi, miqdor kamayadi.',
-        ],
-      },
-      {
-        title: '5. Elastiklik',
-        content: [
-          '5. Elastiklik',
-          '',
-          'Elastiklik — bir o\'zgaruvchining boshqa o\'zgaruvchi ta\'siriga sezgirlik darajasi.',
-          '',
-          'Talabning narx elastikligi: Ed = %ΔQd / %ΔP',
-          '• Ed > 1: elastik (hashamatli tovarlar).',
-          '• Ed < 1: noelastik (zaruriy tovarlar).',
-          '• Ed = 1: birlik elastik.',
-          '',
-          'Elastiklikni belgilovchi omillar:',
-          '• O\'rnini bosuvchi tovarlar mavjudligi.',
-          '• Zaruriylik darajasi.',
-          '• Bozor chegaralari (tor bozor = elastik).',
-          '• Vaqt ufqi (uzoq muddat = elastik).',
-          '',
-          'Taklif elastikligi: Es = %ΔQs / %ΔP',
-        ],
-      },
-      {
-        title: '6. Davlat siyosati va bozor',
-        content: [
-          '6. Davlat siyosati va bozor',
-          '',
-          'Narxni nazorat qilish:',
-          '• Narx shifti (Price Ceiling) — maksimal narx. Ijara narxlari.',
-          '• Narx tagligi (Price Floor) — minimal narx. Eng kam ish haqi.',
-          '',
-          'Soliqlar:',
-          '• Soliq yuki xaridor va sotuvchi o\'rtasida taqsimlanadi.',
-          '• Soliqning taqsimlanishi elastiklikka bog\'liq.',
-          '• Noelastik tomon ko\'proq soliq yukini ko\'taradi.',
-          '',
-          'Subsidiyalar:',
-          '• Davlat tomonidan ishlab chiqaruvchilarga beriladigan moliyaviy yordam.',
-          '• Taklifni oshiradi, narxni pasaytiradi.',
-        ],
-      },
-      {
-        title: '7. Iste\'molchilar, ishlab chiqaruvchilar va bozor samaradorligi',
-        content: [
-          '7. Iste\'molchilar, ishlab chiqaruvchilar va bozor samaradorligi',
-          '',
-          'Iste\'molchi ortiqchaligi (Consumer Surplus):',
-          '• Iste\'molchi to\'lashga tayyor narx — haqiqiy narx.',
-          '• Talab egri chizig\'i ostidagi va narx ustidagi maydon.',
-          '',
-          'Ishlab chiqaruvchi ortiqchaligi (Producer Surplus):',
-          '• Haqiqiy narx — ishlab chiqaruvchi qabul qilishga tayyor minimal narx.',
-          '• Narx ostidagi va taklif egri chizig\'i ustidagi maydon.',
-          '',
-          'Bozor samaradorligi:',
-          '• Umumiy ortiqchalik = Iste\'molchi + Ishlab chiqaruvchi.',
-          '• Muvozanat nuqtasida umumiy ortiqchalik maksimal.',
-          '• "O\'lik yuk" (Deadweight Loss) — soliq yoki narx nazorati tufayli yo\'qotilgan ortiqchalik.',
-        ],
-      },
-    ],
+    id: 'smith-wealth-nations',
+    title: 'Xalqlar boyligi',
+    author: 'Adam Smith',
+    description: 'Erkin bozor iqtisodiyotining asosiy tamoyillari – ko‘rinmas qo‘l, mehnat taqsimoti va davlatning iqtisodiyotdagi roli.',
+    pdfUrl: '/books/WealthofNations.pdf',
+    coverColor: '#854d0e',
+    pages: 520
   },
+  {
+    id: 'mcconnell-economics',
+    title: 'Iqtisodiyot',
+    author: 'McConnell, Brue, Flynn',
+    description: 'Zamonaviy iqtisodiyot darsligi – mikro va makroiqtisodiyot asoslari, real iqtisodiy maʼlumotlar va amaliy misollar.',
+    pdfUrl: '/books/mcconbreconomics.pdf',
+    coverColor: '#1e40af',
+    pages: 680
+  },
+  {
+    id: 'keynes-general-theory',
+    title: 'Bandlik, foiz va pulning umumiy nazariyasi',
+    author: 'John Maynard Keynes',
+    description: 'Zamonaviy makroiqtisodiyotning asoschisi – samarali talab, multiplikator va davlat aralashuvi.',
+    pdfUrl: '/books/keynestheoryofemployment.pdf',
+    coverColor: '#065f46',
+    pages: 380
+  }
 ];
